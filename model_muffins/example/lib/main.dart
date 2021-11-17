@@ -1,4 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:example/models/http_model.dart';
+import 'package:example/models/method_model.dart';
+import 'dart:io';
+
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 void main() {
   runApp(MyApp());
@@ -27,8 +35,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void _callHTTP() {
-    setState(() {});
+  Future<void> _callHTTP() async {
+
+    try {
+      var response = await DefaultAssetBundle.of(context).loadString('example.json');
+
+      List<HTTPModel>listModel = jsonDecode(response);
+
+      var model = HTTPModel.fromJson(response);
+      print('model : ${model.foo}');
+      var toPush = model.toJson();
+
+      HTTPModel.fromJson(toPush);
+    } on Exception catch (e) {
+      print(e);
+    }
+
+    setState(() {
+      
+    });
   }
 
   void _callMethod() {
